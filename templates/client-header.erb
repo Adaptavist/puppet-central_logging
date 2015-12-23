@@ -1,0 +1,12 @@
+### File managed with puppet ###
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+### Module:           '<%= scope.to_hash['module_name'] %>'
+### Template source:  '<%= template_source %>'
+$ModLoad omrelp.so
+$ModLoad imfile.so
+
+$MainMsgQueueFileName main_msg_queue   # use a disk queue when the main system queue is full
+$MainMsgQueueType LinkedList
+$MainMsgQueueSaveOnShutdown on
+$MainMsgQueueMaxDiskSpace 1g
+$MainMsgQueueSize 15000                # 15k maximum elements

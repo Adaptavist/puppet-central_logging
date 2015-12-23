@@ -1,0 +1,16 @@
+### File managed with puppet ###
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+### Module:           '<%= scope.to_hash['module_name'] %>'
+### Template source:  '<%= template_source %>'
+
+# Watch <%= @name %>
+$InputFileName <%= @input %>
+$InputFileTag <%= @rtag %>:
+$InputFileStateFile <%= @state %>
+$InputFileReadMode  <%= @file_read_mode %>             # 0 = line based (Each line is a new message)
+                                                       # 1 = paragraph (There is a blank line between log messages)
+                                                       # 2 = indented (New log messages start at the beginning of a line. If a line starts with a space it is part of the log message before it)
+$InputRunFileMonitor
+<% if @real_syslog_facility -%>
+$InputFileFacility <%= @real_syslog_facility %>
+<% end -%>

@@ -1,0 +1,14 @@
+### File managed with puppet ###
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+### Module:           '<%= scope.to_hash['module_name'] %>'
+### Template source:  '<%= template_source %>'
+$ModLoad omrelp.so
+$ModLoad imrelp.so
+$InputRELPServerRun <%= @central_syslog_port %>
+
+$WorkDirectory              <%= @rsyslog_spool_dir %>  # where to place spool files
+$MainMsgQueueFileName main_msg_queue    # create a disk queue when the in memory queue is full
+$MainMsgQueueType LinkedList
+$MainMsgQueueSaveOnShutdown on
+$MainMsgQueueMaxDiskSpace 1g
+$MainMsgQueueSize 150000 # 150k maximum elements

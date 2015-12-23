@@ -1,0 +1,19 @@
+### File managed with puppet ###
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+### Module:           '<%= scope.to_hash['module_name'] %>'
+### Template source:  '<%= template_source %>'
+
+# rotate <%= @rotate_logs_period %><%- if @rotate_logs_compress != "false" and @rotate_logs_compress != false -%>, compress<%-end -%>, keep <%= @rotate_logs_keep %> historic logs and notify rsyslog when rotating
+/var/log/hosts/*/*.log {
+    <%= @rotate_logs_period %>
+    rotate <%= @rotate_logs_keep %>
+    <%- if @rotate_logs_compress != "false" and @rotate_logs_compress != false -%>
+    compress
+    <%- end -%>
+    missingok
+    notifempty
+    sharedscripts
+    postrotate
+        /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+    endscript
+}

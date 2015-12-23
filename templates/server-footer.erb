@@ -1,0 +1,27 @@
+### File managed with puppet ###
+#### Served by:        '<%= scope.lookupvar('::servername') %>'
+#### Module:           '<%= scope.to_hash['module_name'] %>'
+#### Template source:  '<%= template_source %>'
+
+<% if @logstash -%>
+$ActionQueueFileName        fwdRule1   # unique name prefix for spool files
+$ActionQueueMaxDiskSpace    1g         # 1gb space limit (use as much as possible)
+$ActionQueueSaveOnShutdown  on         # save messages to disk on shutdown
+$ActionQueueType            LinkedList # run asynchronously
+$ActionResumeRetryCount     -1         # infinite retries if host is down
+
+$template ls_json,"{%timestamp:::date-rfc3339,jsonf:@timestamp%,%source:::jsonf:@source_host%,\"@source\":\"syslog://%fromhost-ip:::json%\",\"@message\":\"%msg:::json%\",\"@fields\":{%syslogfacility-text:::jsonf:facility%,%syslogseverity-text:::jsonf:severity%,%app-name:::jsonf:program%,%procid:::jsonf:processid%}}"
+
+*.* :omrelp:<%= @logstash_host %>:<%= @logstash_relp_port %>;ls_json
+
+<% end -%>
+
+# This redirects the output of the remote logging based on the hostname and syslog tag
+$template DynaFile,"/var/log/hosts/%hostname%/%app-name%.log"
+<%- if @logging_sources and @logging_sources.size > 0 -%>
+<%- @logging_sources.each do |source| -%>
+<%= source %>
+<%- end %>
+<%- else %>
+*.* -?DynaFile
+<%- end %>
