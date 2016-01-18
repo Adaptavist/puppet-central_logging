@@ -1,5 +1,5 @@
 # CentralLogging Module
-
+[![Build Status](https://travis-ci.org/Adaptavist/puppet-central_logging.svg?branch=master)](https://travis-ci.org/Adaptavist/puppet-central_logging)
 ## Overview
 
 The **CentralLogging** module configures **rsyslog** on client puppet machines.
