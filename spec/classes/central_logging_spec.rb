@@ -55,7 +55,8 @@ end
 describe 'central_logging', :type => 'class' do
   let(:facts) do
     {
-      :osfamily => 'RedHat'
+      :osfamily => 'RedHat',
+      :operatingsystemrelease => '7'
     }
   end
 

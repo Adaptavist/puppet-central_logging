@@ -6,7 +6,8 @@ custom_destination = ['*.* :omrelp:log-server1.example.com:2514;LongTagForwardFo
 describe 'central_logging::client', :type => 'class' do
   let(:facts) do
     {
-      :osfamily => 'RedHat'
+      :osfamily => 'RedHat',
+      :operatingsystemrelease => '7'
     }
   end
   context "Should create config files" do

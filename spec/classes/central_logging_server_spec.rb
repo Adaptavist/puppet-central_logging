@@ -5,7 +5,8 @@ def_rsyslog_d = "/etc/rsyslog.d"
 describe 'central_logging::server', :type => 'class' do
   let(:facts) do
     {
-      :osfamily => 'RedHat'
+      :osfamily => 'RedHat',
+      :operatingsystemrelease => '7'
     }
   end
   context "Should install logrotate package and create config files" do
