@@ -35,7 +35,7 @@ class central_logging (
       }
   }
 
-  if $rsyslog_yum_repo {
+  if str2bool($rsyslog_yum_repo) {
       yum::managed_yumrepo { 'rsyslog_v7':
           descr    => 'Adiscon CentOS-$releasever - local packages for $basearch',
           baseurl  => $rsyslog_yum_repo_url,
