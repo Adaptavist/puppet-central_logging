@@ -1,5 +1,5 @@
 name 'adaptavist-central_logging'
-version '1.0.0'
+version '1.0.1'
 source 'https://github.com/Adaptavist/puppet-central_logging.git'
 author 'adaptavist'
 license 'apache2'
