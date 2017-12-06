@@ -3,7 +3,7 @@
 #### Module:           '<%= scope.to_hash['module_name'] %>'
 #### Template source:  '<%= template_source %>'
 
-<% if @logstash -%>
+<% if @real_logstash -%>
 $ActionQueueFileName        fwdRule1   # unique name prefix for spool files
 $ActionQueueMaxDiskSpace    1g         # 1gb space limit (use as much as possible)
 $ActionQueueSaveOnShutdown  on         # save messages to disk on shutdown
@@ -18,7 +18,7 @@ $template ls_json,"{%timestamp:::date-rfc3339,jsonf:@timestamp%,%source:::jsonf:
 
 # This redirects the output of the remote logging based on the hostname and syslog tag
 $template DynaFile,"/var/log/hosts/%hostname%/%app-name%.log"
-<%- if @logging_sources and @logging_sources.size > 0 -%>
+<%- if @logging_sources and @logging_sources.kind_of?(Array) -%>
 <%- @logging_sources.each do |source| -%>
 <%= source %>
 <%- end %>

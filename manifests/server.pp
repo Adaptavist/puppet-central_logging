@@ -10,6 +10,9 @@ class central_logging::server (
     $rotate_logs_keep     = $central_logging::params::server_rotate_logs_keep,
     ) inherits central_logging {
 
+    # convert possible 'string booleans' to true boolean
+    $real_logstash = str2bool($logstash)
+
     if str2bool($::selinux) {
       # set correct selinux context on the central_syslog_port
       exec {'set_logstash_relp_port_selinux_context':
