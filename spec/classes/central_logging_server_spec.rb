@@ -38,6 +38,37 @@ describe 'central_logging::server', :type => 'class' do
     end
   end
 
+  context "Should create config files and NOT install/configure logrotate" do
+    let(:params) { {
+        :rotate_logs => 'false',
+      } }
+    it do
+      should_not contain_package('logrotate')
+      should_not contain_file('/etc/logrotate.d/central-hosts')
+    end
+
+    it do
+      ['client::20-mod-loads-server.conf', 'client::99-centralise-server.conf'].each do |file|
+        should contain_file(file).with(
+          'ensure'  => 'present',
+          'owner'   => 'root',
+          'group'   => 'root',
+          'mode'    => '0644',
+          )
+      end
+      ['client::20-mod-loads-server.conf', 'client::99-centralise-server.conf'].each do |file|
+        should contain_file(file).with(
+          'notify'  => 'Service[rsyslog]',
+          )
+      end
+
+      should contain_file('client::99-centralise-server.conf').with(
+        'path' => "#{def_rsyslog_d}/99-centralise-server.conf",
+        )
+    end
+  end
+
+
   context "checking content with default params" do
     it do
       should contain_file('client::20-mod-loads-server.conf')

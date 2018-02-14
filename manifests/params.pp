@@ -23,6 +23,7 @@ class central_logging::params {
     $server_rotate_logs_period   = 'daily'
     $server_rotate_logs_compress = true
     $server_rotate_logs_keep     = '90'
+    $server_rotate_logs          = true
 
     # central_logging::client params
     $client_header_template      = "${module_name}/client-header.erb"
