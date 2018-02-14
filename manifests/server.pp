@@ -8,6 +8,7 @@ class central_logging::server (
     $rotate_logs_period   = $central_logging::params::server_rotate_logs_period,
     $rotate_logs_compress = $central_logging::params::server_rotate_logs_compress,
     $rotate_logs_keep     = $central_logging::params::server_rotate_logs_keep,
+    $rotate_logs          = $central_logging::params::server_rotate_logs,
     ) inherits central_logging {
 
     # convert possible 'string booleans' to true boolean
@@ -44,15 +45,17 @@ class central_logging::server (
         notify  => Service['rsyslog'],
     }
 
-    file { '/etc/logrotate.d/central-hosts':
-        ensure  => 'present',
-        content => template($logrotate_template),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
-    }
+    if str2bool($rotate_logs) {
+        file { '/etc/logrotate.d/central-hosts':
+            ensure  => 'present',
+            content => template($logrotate_template),
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+        }
 
-    package { 'logrotate':
-        ensure => 'present',
+        package { 'logrotate':
+            ensure => 'present',
+        }
     }
 }
